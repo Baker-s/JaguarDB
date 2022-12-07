@@ -3,7 +3,7 @@
 
 #pragma once
 
-// std includes 
+// std includes
 #include <iostream>
 #include <stdint.h>
 #include <string.h>
@@ -62,22 +62,23 @@ class Sock {
     public:
     Sock(const std::string, const u_int16_t);
     virtual ~Sock(void);
-    
     u_int8_t Close(void);
-    bool Send(void *buf, size_t len);
-    bool Revc(void *buf, size_t len);
 };
 
 class SockTcpServer : public Sock {
     public:
     SockTcpServer(const std::string ip, const u_int16_t port);
     void Connection(void);
+    bool Send(void *buf, size_t len);
+    bool Revc(void *buf, size_t len);
 };
 
 class SockTcpClient : public Sock {
     public:
     SockTcpClient(const std::string ip, const u_int16_t port);
     void Connect(void);
+    bool Send(void *buf, size_t len);
+    bool Revc(void *buf, size_t len);
 };
 
 #endif

@@ -28,13 +28,23 @@ void Sock::sInetPton(const char * host, struct sockaddr_in & saddr_in) {
     #endif
 }
 
-bool Sock::Send(void *buf, size_t len) {
+
+bool SockTcpServer::Send(void *buf, size_t len) {
     return (size_t)send(_conn, (const char *)buf, len, 0) == len;
 }
 
-bool Sock::Revc(void *buf, size_t len) {
+bool SockTcpServer::Revc(void *buf, size_t len) {
     return (size_t)recv(_conn, (char *)buf, len, 0) == len;
 }
+
+bool SockTcpClient::Send(void *buf, size_t len) {
+    return (size_t)send(sFD, (const char *)buf, len, 0) == len;
+}
+
+bool SockTcpClient::Revc(void *buf, size_t len) {
+    return (size_t)recv(sFD, (char *)buf, len, 0) == len;
+}
+
 
 u_int8_t Sock::SockInit(void) {
     #ifdef _WIN32

@@ -94,10 +94,21 @@ void SockTcpServer::Connection() {
     fflush(stdout);
 }
 
-SockTcpClient::SockTcpClient(const std::string ip, const u_int16_t port) : Sock(ip, port) {}
+SockTcpClient::SockTcpClient(const std::string ip, const u_int16_t port) : Sock(ip, port) {
+    sSockAddr.sin_family = AF_INET;
+    sSockAddr.sin_port = htons(port);
+
+    sInetPton(ip.c_str(), sSockAddr);
+
+    sFD = socket(AF_INET, SOCK_STREAM, 0);
+    if (sFD == INVALID_SOCKET) {
+        Clean();
+        return;
+    }
+}
 
 void SockTcpClient::Connect() {
-    if (connect(sFD, (sockaddr *)&sSockAddr, sizeof(sSockAddr.sin_addr.s_addr)) == -1) {
+    if (connect(sFD, (struct sockaddr *)&sSockAddr, sizeof(sSockAddr)) == -1) {
         Close();
         printf("Faild Client Connect\n");
         return;
